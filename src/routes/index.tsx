@@ -346,11 +346,15 @@ function DialerPage() {
               className="flex-1 rounded-xl bg-[color:var(--surface-2)] px-3 py-2 text-[14px] outline-none focus:ring-2 focus:ring-[color:var(--pink)]"
               aria-label="Filter by category"
             >
-              <option value="all">All categories</option>
-              <option value={UNCATEGORIZED}>Uncategorized</option>
+              <option value="all">
+                All categories ({categoryCounts.get("all") ?? 0})
+              </option>
+              <option value={UNCATEGORIZED}>
+                Uncategorized ({categoryCounts.get(UNCATEGORIZED) ?? 0})
+              </option>
               {allCategories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {cat} ({categoryCounts.get(cat) ?? 0})
                 </option>
               ))}
             </select>
