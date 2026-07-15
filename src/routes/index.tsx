@@ -137,12 +137,27 @@ function DialerPage() {
     return [...set].sort((a, b) => a.localeCompare(b));
   }, [categories, contacts]);
 
+  const baseContacts = useMemo(() => {
+    return tab === "all"
+      ? contacts.filter((c) => !checkedIds.includes(c.id))
+      : contacts.filter((c) => checkedIds.includes(c.id));
+  }, [contacts, checkedIds, tab]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    counts.set("all", baseContacts.length);
+    counts.set(UNCATEGORIZED, baseContacts.filter((c) => !c.category).length);
+    for (const c of baseContacts) {
+      if (c.category) {
+        counts.set(c.category, (counts.get(c.category) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }, [baseContacts]);
+
   const visibleContacts = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let base =
-      tab === "all"
-        ? contacts.filter((c) => !checkedIds.includes(c.id))
-        : contacts.filter((c) => checkedIds.includes(c.id));
+    let base = [...baseContacts];
 
     if (filterCategory !== "all") {
       if (filterCategory === UNCATEGORIZED) {
@@ -158,7 +173,7 @@ function DialerPage() {
         )
       : base;
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, [contacts, checkedIds, query, tab, filterCategory]);
+  }, [baseContacts, query, filterCategory]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Contact[]>();
@@ -331,11 +346,15 @@ function DialerPage() {
               className="flex-1 rounded-xl bg-[color:var(--surface-2)] px-3 py-2 text-[14px] outline-none focus:ring-2 focus:ring-[color:var(--pink)]"
               aria-label="Filter by category"
             >
-              <option value="all">All categories</option>
-              <option value={UNCATEGORIZED}>Uncategorized</option>
+              <option value="all">
+                All categories ({categoryCounts.get("all") ?? 0})
+              </option>
+              <option value={UNCATEGORIZED}>
+                Uncategorized ({categoryCounts.get(UNCATEGORIZED) ?? 0})
+              </option>
               {allCategories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {cat} ({categoryCounts.get(cat) ?? 0})
                 </option>
               ))}
             </select>
@@ -346,7 +365,7 @@ function DialerPage() {
         <div className="flex items-center gap-1 border-b border-[color:var(--hairline)] bg-[color:var(--surface)] px-4 py-2">
           {(
             [
-              { id: "all", label: "All contacts", count: contacts.length - checkedIds.length },
+              { id: "all", label: "Contacts", count: contacts.length - checkedIds.length },
               { id: "checked", label: "Checked", count: checkedIds.length },
             ] as const
           ).map((t) => {
