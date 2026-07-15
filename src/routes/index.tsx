@@ -361,7 +361,7 @@ function DialerPage() {
         <div className="flex items-center gap-1 border-b border-[color:var(--hairline)] bg-[color:var(--surface)] px-4 py-2">
           {(
             [
-              { id: "all", label: "All contacts", count: contacts.length - checkedIds.length },
+              { id: "all", label: "Contacts", count: contacts.length - checkedIds.length },
               { id: "checked", label: "Checked", count: checkedIds.length },
             ] as const
           ).map((t) => {
