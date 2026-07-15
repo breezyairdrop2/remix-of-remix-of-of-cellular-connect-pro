@@ -137,12 +137,27 @@ function DialerPage() {
     return [...set].sort((a, b) => a.localeCompare(b));
   }, [categories, contacts]);
 
+  const baseContacts = useMemo(() => {
+    return tab === "all"
+      ? contacts.filter((c) => !checkedIds.includes(c.id))
+      : contacts.filter((c) => checkedIds.includes(c.id));
+  }, [contacts, checkedIds, tab]);
+
+  const categoryCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    counts.set("all", baseContacts.length);
+    counts.set(UNCATEGORIZED, baseContacts.filter((c) => !c.category).length);
+    for (const c of baseContacts) {
+      if (c.category) {
+        counts.set(c.category, (counts.get(c.category) ?? 0) + 1);
+      }
+    }
+    return counts;
+  }, [baseContacts]);
+
   const visibleContacts = useMemo(() => {
     const q = query.trim().toLowerCase();
-    let base =
-      tab === "all"
-        ? contacts.filter((c) => !checkedIds.includes(c.id))
-        : contacts.filter((c) => checkedIds.includes(c.id));
+    let base = [...baseContacts];
 
     if (filterCategory !== "all") {
       if (filterCategory === UNCATEGORIZED) {
@@ -158,7 +173,7 @@ function DialerPage() {
         )
       : base;
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, [contacts, checkedIds, query, tab, filterCategory]);
+  }, [baseContacts, query, filterCategory]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Contact[]>();
