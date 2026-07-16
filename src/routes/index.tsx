@@ -117,6 +117,11 @@ function DialerPage() {
     setHydrated(true);
   }, []);
 
+  // Reset category filter if it points to the removed "Uncategorized" option
+  useEffect(() => {
+    if (filterCategory === UNCATEGORIZED) setFilterCategory("all");
+  }, [filterCategory]);
+
   // persist
   useEffect(() => {
     if (!hydrated) return;
@@ -158,11 +163,7 @@ function DialerPage() {
     let base = [...baseContacts];
 
     if (filterCategory !== "all") {
-      if (filterCategory === UNCATEGORIZED) {
-        base = base.filter((c) => !c.category);
-      } else {
-        base = base.filter((c) => c.category === filterCategory);
-      }
+      base = base.filter((c) => c.category === filterCategory);
     }
 
     const list = q
@@ -357,9 +358,6 @@ function DialerPage() {
             >
               <option value="all">
                 All categories ({categoryCounts.get("all") ?? 0})
-              </option>
-              <option value={UNCATEGORIZED}>
-                Uncategorized ({categoryCounts.get(UNCATEGORIZED) ?? 0})
               </option>
               {allCategories.map((cat) => (
                 <option key={cat} value={cat}>
