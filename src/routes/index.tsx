@@ -684,6 +684,15 @@ function ContactSheet({
           </div>
           <h2 className="mt-3 text-[22px] font-semibold tracking-tight">{contact.name}</h2>
           <p className="text-[14px] text-muted-foreground">{contact.number}</p>
+          {contact.company && (
+            <p className="text-[13px] text-muted-foreground">{contact.company}</p>
+          )}
+          {typeof contact.numberOfReviews === "number" && (
+            <p className="text-[13px] text-muted-foreground">
+              {contact.numberOfReviews} review
+              {contact.numberOfReviews === 1 ? "" : "s"}
+            </p>
+          )}
 
           <a
             href={telHref(contact.number)}
