@@ -358,9 +358,6 @@ function DialerPage() {
               <option value="all">
                 All categories ({categoryCounts.get("all") ?? 0})
               </option>
-              <option value={UNCATEGORIZED}>
-                Uncategorized ({categoryCounts.get(UNCATEGORIZED) ?? 0})
-              </option>
               {allCategories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat} ({categoryCounts.get(cat) ?? 0})
