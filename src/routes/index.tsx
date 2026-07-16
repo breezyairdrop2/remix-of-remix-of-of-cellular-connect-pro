@@ -89,6 +89,12 @@ function telHref(num: string) {
   return `tel:${num.replace(/[^\d+]/g, "")}`;
 }
 
+function truncateName(name: string, max = 13) {
+  if (name.length <= max) return name;
+  return `${name.slice(0, max)}...`;
+}
+
+
 function DialerPage() {
   useSystemTheme();
 
