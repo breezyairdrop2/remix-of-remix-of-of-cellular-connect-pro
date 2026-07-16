@@ -28,20 +28,7 @@ type Contact = {
   category?: string;
 };
 
-const SEED: Contact[] = [
-  { id: "1", name: "Ava Martinez", number: "+1 (415) 555-0142" },
-  { id: "2", name: "Ben Cohen", number: "+1 (212) 555-0198" },
-  { id: "3", name: "Chloe Nguyen", number: "+1 (646) 555-0113" },
-  { id: "4", name: "Daniel Park", number: "+1 (305) 555-0187" },
-  { id: "5", name: "Elena Rossi", number: "+39 06 5555 0124" },
-  { id: "6", name: "Farah Idris", number: "+971 50 555 0166" },
-  { id: "7", name: "Gabriel Silva", number: "+55 11 95555 0179" },
-  { id: "8", name: "Hana Suzuki", number: "+81 90 5555 0102" },
-  { id: "9", name: "Isla Thompson", number: "+44 20 5555 0155" },
-  { id: "10", name: "Jonas Weber", number: "+49 30 5555 0138" },
-  { id: "11", name: "Kavya Rao", number: "+91 98 5555 0121" },
-  { id: "12", name: "Liam O'Connor", number: "+353 1 555 0147" },
-];
+const SEED: Contact[] = [];
 
 const STORAGE_KEY = "rose-dialer:v1";
 const UNCATEGORIZED = "Uncategorized";
