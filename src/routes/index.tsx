@@ -169,8 +169,14 @@ function DialerPage() {
           (c) => c.name.toLowerCase().includes(q) || c.number.toLowerCase().includes(q),
         )
       : base;
+
+    if (sortBy === "reviews") {
+      return [...list].sort(
+        (a, b) => (b.numberOfReviews ?? 0) - (a.numberOfReviews ?? 0),
+      );
+    }
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, [baseContacts, query, filterCategory]);
+  }, [baseContacts, query, filterCategory, sortBy]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Contact[]>();
