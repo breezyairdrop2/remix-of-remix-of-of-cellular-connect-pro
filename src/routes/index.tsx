@@ -14,6 +14,7 @@ import {
   Trash2,
   Tag,
   Plus,
+  ArrowUpDown,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -24,6 +25,9 @@ type Contact = {
   id: string;
   name: string;
   number: string;
+  phone?: string;
+  company?: string;
+  numberOfReviews?: number;
   note?: string;
   category?: string;
 };
@@ -92,6 +96,7 @@ function DialerPage() {
   const [hydrated, setHydrated] = useState(false);
   const [tab, setTab] = useState<"all" | "checked">("all");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"name" | "reviews">("name");
 
   const [detail, setDetail] = useState<Contact | null>(null);
   const [importOpen, setImportOpen] = useState(false);
@@ -165,8 +170,14 @@ function DialerPage() {
           (c) => c.name.toLowerCase().includes(q) || c.number.toLowerCase().includes(q),
         )
       : base;
+
+    if (sortBy === "reviews") {
+      return [...list].sort(
+        (a, b) => (b.numberOfReviews ?? 0) - (a.numberOfReviews ?? 0),
+      );
+    }
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
-  }, [baseContacts, query, filterCategory]);
+  }, [baseContacts, query, filterCategory, sortBy]);
 
   const grouped = useMemo(() => {
     const map = new Map<string, Contact[]>();
@@ -249,12 +260,17 @@ function DialerPage() {
         const key = contactKey(name, number);
         if (seen.has(key)) return;
         seen.add(key);
+        const rawReviews = (raw as any).numberOfReviews;
         next.push({
           id:
             (raw as any).id?.toString() ??
             `${Date.now()}-${i}-${Math.random().toString(36).slice(2, 7)}`,
           name,
           number,
+          phone: (raw as any).phone ? String((raw as any).phone) : undefined,
+          company: (raw as any).company ? String((raw as any).company) : undefined,
+          numberOfReviews:
+            typeof rawReviews === "number" ? rawReviews : undefined,
           note: (raw as any).note ? String((raw as any).note) : undefined,
           category: (raw as any).category
             ? String((raw as any).category)
@@ -352,6 +368,20 @@ function DialerPage() {
               ))}
             </select>
           </div>
+
+          {/* Sort filter */}
+          <div className="flex items-center gap-2 px-4 pb-3">
+            <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "name" | "reviews")}
+              className="flex-1 rounded-xl bg-[color:var(--surface-2)] px-3 py-2 text-[14px] outline-none focus:ring-2 focus:ring-[color:var(--pink)]"
+              aria-label="Sort contacts"
+            >
+              <option value="name">Sort by name</option>
+              <option value="reviews">Sort by number of reviews</option>
+            </select>
+          </div>
         </header>
 
         {/* Tabs */}
@@ -401,7 +431,7 @@ function DialerPage() {
               {query
                 ? "No matches."
                 : tab === "checked"
-                  ? "No checked contacts yet. Tick a contact in All contacts to move it here."
+                  ? "No checked contacts yet. Tick a contact in Contacts to move it here."
                   : "No contacts in this view."}
             </div>
           ) : (
@@ -451,6 +481,15 @@ function DialerPage() {
                             {c.category && (
                               <span className="shrink-0 rounded-full bg-[color:var(--pink-soft)] px-1.5 py-0.5 text-[10px] font-semibold text-[color:var(--accent-foreground)]">
                                 {c.category}
+                              </span>
+                            )}
+                          </div>
+                          <div className="mt-0.5 flex items-center gap-2 text-[12px] text-muted-foreground">
+                            {c.company && <span className="truncate">{c.company}</span>}
+                            {typeof c.numberOfReviews === "number" && (
+                              <span className="shrink-0 rounded-full bg-[color:var(--surface-2)] px-1.5 py-0.5 font-medium">
+                                {c.numberOfReviews} review
+                                {c.numberOfReviews === 1 ? "" : "s"}
                               </span>
                             )}
                           </div>
@@ -509,7 +548,7 @@ function DialerPage() {
           <p className="text-[13px] text-muted-foreground">
             Paste a JSON array like{" "}
             <code className="rounded bg-[color:var(--surface-2)] px-1 py-0.5 text-[12px]">
-              [{`{ "name": "...", "number": "..." }`}]
+              [{`{ "name": "...", "number": "...", "company": "...", "numberOfReviews": 0 }`}]
             </code>
           </p>
 
@@ -645,6 +684,15 @@ function ContactSheet({
           </div>
           <h2 className="mt-3 text-[22px] font-semibold tracking-tight">{contact.name}</h2>
           <p className="text-[14px] text-muted-foreground">{contact.number}</p>
+          {contact.company && (
+            <p className="text-[13px] text-muted-foreground">{contact.company}</p>
+          )}
+          {typeof contact.numberOfReviews === "number" && (
+            <p className="text-[13px] text-muted-foreground">
+              {contact.numberOfReviews} review
+              {contact.numberOfReviews === 1 ? "" : "s"}
+            </p>
+          )}
 
           <a
             href={telHref(contact.number)}
