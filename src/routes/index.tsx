@@ -95,6 +95,7 @@ function DialerPage() {
   const [hydrated, setHydrated] = useState(false);
   const [tab, setTab] = useState<"all" | "checked">("all");
   const [filterCategory, setFilterCategory] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<"name" | "reviews">("name");
 
   const [detail, setDetail] = useState<Contact | null>(null);
   const [importOpen, setImportOpen] = useState(false);
