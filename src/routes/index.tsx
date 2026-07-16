@@ -158,11 +158,7 @@ function DialerPage() {
     let base = [...baseContacts];
 
     if (filterCategory !== "all") {
-      if (filterCategory === UNCATEGORIZED) {
-        base = base.filter((c) => !c.category);
-      } else {
-        base = base.filter((c) => c.category === filterCategory);
-      }
+      base = base.filter((c) => c.category === filterCategory);
     }
 
     const list = q
