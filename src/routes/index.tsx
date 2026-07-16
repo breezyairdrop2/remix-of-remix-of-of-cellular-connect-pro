@@ -117,6 +117,11 @@ function DialerPage() {
     setHydrated(true);
   }, []);
 
+  // Reset category filter if it points to the removed "Uncategorized" option
+  useEffect(() => {
+    if (filterCategory === UNCATEGORIZED) setFilterCategory("all");
+  }, [filterCategory]);
+
   // persist
   useEffect(() => {
     if (!hydrated) return;
