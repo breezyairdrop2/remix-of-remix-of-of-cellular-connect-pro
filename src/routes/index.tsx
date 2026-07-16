@@ -548,7 +548,7 @@ function DialerPage() {
           <p className="text-[13px] text-muted-foreground">
             Paste a JSON array like{" "}
             <code className="rounded bg-[color:var(--surface-2)] px-1 py-0.5 text-[12px]">
-              [{`{ "name": "...", "number": "..." }`}]
+              [{`{ "name": "...", "number": "...", "company": "...", "numberOfReviews": 0 }`}]
             </code>
           </p>
 
