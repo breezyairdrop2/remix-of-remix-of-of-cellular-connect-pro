@@ -368,6 +368,20 @@ function DialerPage() {
               ))}
             </select>
           </div>
+
+          {/* Sort filter */}
+          <div className="flex items-center gap-2 px-4 pb-3">
+            <ArrowUpDown className="h-4 w-4 text-muted-foreground" />
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "name" | "reviews")}
+              className="flex-1 rounded-xl bg-[color:var(--surface-2)] px-3 py-2 text-[14px] outline-none focus:ring-2 focus:ring-[color:var(--pink)]"
+              aria-label="Sort contacts"
+            >
+              <option value="name">Sort by name</option>
+              <option value="reviews">Sort by number of reviews</option>
+            </select>
+          </div>
         </header>
 
         {/* Tabs */}
