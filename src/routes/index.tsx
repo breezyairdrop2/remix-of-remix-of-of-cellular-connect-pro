@@ -89,6 +89,12 @@ function telHref(num: string) {
   return `tel:${num.replace(/[^\d+]/g, "")}`;
 }
 
+function truncateName(name: string, max = 13) {
+  if (name.length <= max) return name;
+  return `${name.slice(0, max)}...`;
+}
+
+
 function DialerPage() {
   useSystemTheme();
 
@@ -448,8 +454,9 @@ function DialerPage() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="truncate text-[16px] font-medium leading-tight">
-                            {c.name}
+                            {truncateName(c.name)}
                           </div>
+
                           <div className="flex items-center gap-1.5">
                             <span className="truncate text-[13px] text-muted-foreground">
                               {c.number}
