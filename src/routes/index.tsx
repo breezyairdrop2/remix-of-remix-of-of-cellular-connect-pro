@@ -24,6 +24,9 @@ type Contact = {
   id: string;
   name: string;
   number: string;
+  phone?: string;
+  company?: string;
+  numberOfReviews?: number;
   note?: string;
   category?: string;
 };
