@@ -431,7 +431,7 @@ function DialerPage() {
               {query
                 ? "No matches."
                 : tab === "checked"
-                  ? "No checked contacts yet. Tick a contact in All contacts to move it here."
+                  ? "No checked contacts yet. Tick a contact in Contacts to move it here."
                   : "No contacts in this view."}
             </div>
           ) : (
