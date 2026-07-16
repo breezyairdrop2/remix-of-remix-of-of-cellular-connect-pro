@@ -484,6 +484,15 @@ function DialerPage() {
                               </span>
                             )}
                           </div>
+                          <div className="mt-0.5 flex items-center gap-2 text-[12px] text-muted-foreground">
+                            {c.company && <span className="truncate">{c.company}</span>}
+                            {typeof c.numberOfReviews === "number" && (
+                              <span className="shrink-0 rounded-full bg-[color:var(--surface-2)] px-1.5 py-0.5 font-medium">
+                                {c.numberOfReviews} review
+                                {c.numberOfReviews === 1 ? "" : "s"}
+                              </span>
+                            )}
+                          </div>
                         </div>
                         {c.note && (
                           <StickyNote className="h-4 w-4 text-[color:var(--pink)]" />
