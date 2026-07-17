@@ -467,11 +467,11 @@ function DialerPage() {
                   {items.map((c) => (
                     <li
                       key={c.id}
-                      className="flex items-center gap-3 border-b border-[color:var(--hairline)] px-4 py-2.5 last:border-b-0"
+                      className="flex items-start gap-3 border-b border-[color:var(--hairline)] px-4 py-3 last:border-b-0"
                     >
                       <button
                         onClick={() => toggleCheck(c.id)}
-                        className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border transition ${
+                        className={`mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-full border transition ${
                           checkedIds.includes(c.id)
                             ? "border-[color:var(--pink)] bg-[color:var(--pink)] text-white"
                             : "border-[color:var(--hairline)] bg-[color:var(--surface)]"
@@ -487,14 +487,20 @@ function DialerPage() {
 
                       <button
                         onClick={() => setDetail(c)}
-                        className="flex flex-1 items-center gap-3 text-left"
+                        className="flex flex-1 items-start gap-3 text-left min-w-0"
                       >
                         <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[color:var(--pink-soft)] text-[13px] font-semibold text-[color:var(--accent-foreground)]">
                           {initials(c.name)}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="truncate text-[16px] font-medium leading-tight">
-                            {truncateName(c.name)}
+                          <div className="flex items-center gap-2">
+                            <div className="truncate text-[16px] font-medium leading-tight">
+                              {truncateName(c.name)}
+                            </div>
+                            {c.note && (
+                              <StickyNote className="h-4 w-4 shrink-0 text-[color:var(--pink)]" />
+                            )}
+                            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
                           </div>
 
                           <div className="flex items-center gap-1.5">
@@ -515,34 +521,32 @@ function DialerPage() {
                             </span>
                           </div>
                         </div>
-                        {c.note && (
-                          <StickyNote className="h-4 w-4 text-[color:var(--pink)]" />
-                        )}
-                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
                       </button>
 
-                      <a
-                        href={telHref(c.number)}
-                        className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--pink)] text-white shadow-sm transition active:scale-95"
-                        aria-label={`Call ${c.name}`}
-                      >
-                        <Phone className="h-[15px] w-[15px]" fill="currentColor" />
-                      </a>
+                      <div className="mt-0.5 flex items-center gap-2">
+                        <a
+                          href={telHref(c.number)}
+                          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--pink)] text-white shadow-sm transition active:scale-95"
+                          aria-label={`Call ${c.name}`}
+                        >
+                          <Phone className="h-[15px] w-[15px]" fill="currentColor" />
+                        </a>
 
-                      <button
-                        onClick={() => {
-                          if (
-                            typeof window === "undefined" ||
-                            window.confirm(`Delete ${c.name}?`)
-                          ) {
-                            deleteContact(c.id);
-                          }
-                        }}
-                        className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--surface-2)] text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
-                        aria-label={`Delete ${c.name}`}
-                      >
-                        <Trash2 className="h-[15px] w-[15px]" />
-                      </button>
+                        <button
+                          onClick={() => {
+                            if (
+                              typeof window === "undefined" ||
+                              window.confirm(`Delete ${c.name}?`)
+                            ) {
+                              deleteContact(c.id);
+                            }
+                          }}
+                          className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[color:var(--surface-2)] text-muted-foreground transition hover:bg-destructive/10 hover:text-destructive"
+                          aria-label={`Delete ${c.name}`}
+                        >
+                          <Trash2 className="h-[15px] w-[15px]" />
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
