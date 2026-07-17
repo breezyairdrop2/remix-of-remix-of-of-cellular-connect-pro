@@ -77,14 +77,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Rose Dialer — Pink iPhone-style Contacts" },
-      { name: "description", content: "A minimal iPhone-style phone dialer with contact notes, import/export, and cellular call handoff." },
-      { name: "author", content: "Rose Dialer" },
-      { property: "og:title", content: "Rose Dialer — Pink iPhone-style Contacts" },
-      { property: "og:description", content: "A minimal iPhone-style phone dialer with contact notes, import/export, and cellular call handoff." },
+      { title: "Business Flaws — Pitch Dialer" },
+      { name: "description", content: "Business Flaws Pitch Dialer." },
+      { name: "author", content: "Pitch Dailer" },
+      { property: "og:title", content: "Business Flaws — Pitch Dialer Contacts" },
+      { property: "og:description", content: "Business Flaws Pitch Dialer." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
       {
