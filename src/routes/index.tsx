@@ -386,6 +386,22 @@ function DialerPage() {
               <option value="name">Sort by name</option>
               <option value="reviews">Sort by number of reviews</option>
             </select>
+            <button
+              type="button"
+              onClick={() => {
+                if (contacts.length === 0) return;
+                if (window.confirm(`Delete all ${contacts.length} contacts? This cannot be undone.`)) {
+                  setContacts([]);
+                  setCheckedIds([]);
+                }
+              }}
+              disabled={contacts.length === 0}
+              className="shrink-0 rounded-xl bg-[color:var(--surface-2)] p-2 text-[color:var(--pink)] transition hover:bg-[color:var(--pink-soft)] active:scale-95 disabled:opacity-40 disabled:hover:bg-[color:var(--surface-2)]"
+              aria-label="Delete all contacts"
+              title="Delete all contacts"
+            >
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
         </header>
 
@@ -490,7 +506,7 @@ function DialerPage() {
                             )}
                           </div>
                           <div className="mt-0.5 flex items-center gap-2 text-[12px] text-muted-foreground">
-                            {c.company && <span className="truncate">{c.company}</span>}
+                            {c.company && <span className="truncate">{truncateName(c.company, 12)}</span>}
                             <span className="shrink-0 rounded-full bg-[color:var(--surface-2)] px-1.5 py-0.5 font-medium">
                               {c.numberOfReviews ?? 0} review
                               {(c.numberOfReviews ?? 0) === 1 ? "" : "s"}
