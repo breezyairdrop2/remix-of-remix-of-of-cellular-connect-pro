@@ -173,9 +173,17 @@ function DialerPage() {
       : base;
 
     if (sortBy === "reviews") {
-      return [...list].sort(
-        (a, b) => (b.numberOfReviews ?? 0) - (a.numberOfReviews ?? 0),
-      );
+      return [...list].sort((a, b) => {
+        const aHas = typeof a.numberOfReviews === "number";
+        const bHas = typeof b.numberOfReviews === "number";
+        if (aHas && !bHas) return -1;
+        if (!aHas && bHas) return 1;
+        if (aHas && bHas) {
+          const diff = b.numberOfReviews! - a.numberOfReviews!;
+          if (diff !== 0) return diff;
+        }
+        return a.name.localeCompare(b.name);
+      });
     }
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
   }, [baseContacts, query, filterCategory, sortBy]);
