@@ -691,12 +691,10 @@ function ContactSheet({
           {contact.company && (
             <p className="text-[13px] text-muted-foreground">{contact.company}</p>
           )}
-          {typeof contact.numberOfReviews === "number" && (
-            <p className="text-[13px] text-muted-foreground">
-              {contact.numberOfReviews} review
-              {contact.numberOfReviews === 1 ? "" : "s"}
-            </p>
-          )}
+          <p className="text-[13px] text-muted-foreground">
+            {contact.numberOfReviews ?? 0} review
+            {(contact.numberOfReviews ?? 0) === 1 ? "" : "s"}
+          </p>
 
           <a
             href={telHref(contact.number)}
