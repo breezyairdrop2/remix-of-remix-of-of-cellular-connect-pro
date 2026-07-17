@@ -490,7 +490,7 @@ function DialerPage() {
                             )}
                           </div>
                           <div className="mt-0.5 flex items-center gap-2 text-[12px] text-muted-foreground">
-                            {c.company && <span className="truncate">{c.company}</span>}
+                            {c.company && <span className="truncate">{truncateName(c.company, 12)}</span>}
                             <span className="shrink-0 rounded-full bg-[color:var(--surface-2)] px-1.5 py-0.5 font-medium">
                               {c.numberOfReviews ?? 0} review
                               {(c.numberOfReviews ?? 0) === 1 ? "" : "s"}
