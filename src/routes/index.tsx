@@ -262,28 +262,27 @@ function DialerPage() {
       const next: Contact[] = [];
       parsed.forEach((raw, i) => {
         if (!raw || typeof raw !== "object") return;
-        const name = String((raw as any).name ?? "").trim();
-        const number = String((raw as any).number ?? (raw as any).phone ?? "").trim();
-        // Skip contacts without a name or number instead of erroring
-        if (!name || !number) return;
+        const r = raw as any;
+        const name = String(r.name ?? r.company ?? "").trim();
+        const number = String(r.number ?? r.phone ?? "").trim();
+        // Require at least a name (or company). Number is optional.
+        if (!name) return;
         const key = contactKey(name, number);
         if (seen.has(key)) return;
         seen.add(key);
-        const rawReviews = (raw as any).numberOfReviews;
+        const rawReviews = r.numberOfReviews;
         next.push({
           id:
-            (raw as any).id?.toString() ??
+            r.id?.toString() ??
             `${Date.now()}-${i}-${Math.random().toString(36).slice(2, 7)}`,
           name,
           number,
-          phone: (raw as any).phone ? String((raw as any).phone) : undefined,
-          company: (raw as any).company ? String((raw as any).company) : undefined,
+          phone: r.phone ? String(r.phone) : undefined,
+          company: r.company ? String(r.company) : undefined,
           numberOfReviews:
             typeof rawReviews === "number" ? rawReviews : undefined,
-          note: (raw as any).note ? String((raw as any).note) : undefined,
-          category: (raw as any).category
-            ? String((raw as any).category)
-            : assignedCategory,
+          note: r.note ? String(r.note) : undefined,
+          category: r.category ? String(r.category) : assignedCategory,
         });
       });
 
