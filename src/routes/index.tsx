@@ -393,6 +393,8 @@ function DialerPage() {
                 if (window.confirm(`Delete all ${contacts.length} contacts? This cannot be undone.`)) {
                   setContacts([]);
                   setCheckedIds([]);
+                  setCategories([]);
+                  setFilterCategory("all");
                 }
               }}
               disabled={contacts.length === 0}
